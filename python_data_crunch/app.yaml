@@ -1,0 +1,9 @@
+runtime: python310
+
+handlers:
+  - url: /static
+    static_dir: static
+  - url: /.*
+    script: auto
+env_variables:
+    APPENGINE_URL: https://gymday-food-gen.ew.r.appspot.com
