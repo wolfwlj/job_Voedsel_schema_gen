@@ -6,8 +6,11 @@ import numpy as np
 import json
 from fastapi.middleware.cors import CORSMiddleware
 
+# uvicorn main:app --host 0.0.0.0 --port $PORT
 
 app = FastAPI()
+
+
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
@@ -272,3 +275,7 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
     return_data = {'meals' : meals, 'tdee': tdee, 'total_kcal': int(total_kcal_schedule / days), 'total_protein': int(total_protein_schedule / days), 'kcal_goal' : int(adjusted_tdee), 'goal': goal, 'bmr': bmi} 
 
     return return_data
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=9090)
