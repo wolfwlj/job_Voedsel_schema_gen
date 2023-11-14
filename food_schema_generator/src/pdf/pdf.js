@@ -38,19 +38,16 @@ const MyDocument = (props) => (
       </Text>
 
       <Text style={styles.text}>
-        Bij Gymday begrijpen we dat iedereen uniek is en dat voeding geen ‘one-size-fits-all’ benadering kent. 
-        Daarom zijn onze voedingsschema’s en recepten bedoeld als inspiratiebron en niet als strikte regels die je moet volgen. 
-        Voel je vrij om bepaalde ingrediënten te verwisselen als je dat wilt. Bijvoorbeeld, als een recept kip vereist maar je bent vegetarisch, 
-        kun je dit vervangen door een plantaardige eiwitbron zoals tofu. Of heb je geen zin in kip, neem dan vis, beef etc. 
-        Het belangrijkste is dat je voldoende eiwitten binnenkrijgt en je houdt aan het voorgeschreven caloriedoel. 
-        Deze twee factoren zijn cruciaal voor het behalen van je fitness- en gezondheidsdoelen. Onthoud dat voeding niet zwart/wit is. 
-        Als je niet precies eet zoals het in het schema staat, betekent dit niet dat je je doelen niet zult halen. 
-        Het gaat om het grotere geheel en de consistentie op lange termijn. We begrijpen dat iedereen een hectisch leven leidt. 
-        Daarom bieden we voor elk type maaltijd—ontbijt, lunch, avondeten en tussendoortjes—zowel snelle als uitgebreidere gerechten aan. 
-        Kies voor snelle gerechten als je weinig tijd hebt, en voor de uitgebreidere opties als je wat langer in de keuken wilt staan. 
-        In het bijgevoegde schema vind je een voorbeeldweek. Deze dient als inspiratie en is dus ook prima toepasbaar in het dagelijks leven. 
-        Je hebt de vrijheid om de gerechten naar wens te verplaatsen of je eigen indeling te creëren. We hopen dat onze voedingsschema’s en recepten je zullen inspireren en motiveren op
-        je gezondheidsreis. Mocht je vragen of opmerkingen hebben, aarzel dan niet om contact met ons op te nemen.
+          Bij Gymday begrijpen we dat iedereen uniek is en dat voeding geen ‘one-size-fits-all’ benadering kent. Daarom zijn onze voedingsschema’s en recepten bedoeld als inspiratiebron en niet als strikte regels die je moet volgen. Voel je vrij om bepaalde ingrediënten te verwisselen als je dat wilt. Bijvoorbeeld, als een recept kip vereist maar je bent vegetarisch, kun je dit vervangen door een plantaardige eiwitbron zoals tofu. Of heb je geen zin in kip, neem dan vis, beef etc. 
+      </Text>
+      <Text style={styles.text}>
+          Het belangrijkste is dat je voldoende eiwitten binnenkrijgt en je houdt aan het voorgeschreven caloriedoel. Deze twee factoren zijn cruciaal voor het behalen van je fitness- en gezondheidsdoelen. Onthoud dat voeding niet zwart/wit is. Als je niet precies eet zoals het in het schema staat, betekent dit niet dat je je doelen niet zult halen. Het gaat om het grotere geheel en de consistentie op lange termijn. 
+      </Text>
+      <Text style={styles.text}>
+            We begrijpen dat iedereen een hectisch leven leidt. Daarom bieden we voor elk type maaltijd—ontbijt, lunch, avondeten en tussendoortjes—zowel snelle als uitgebreidere gerechten aan. 
+      </Text>
+      <Text style={styles.text}>
+            In het bijgevoegde schema vind je een voorbeeldweek. Deze dient als inspiratie en is dus ook prima toepasbaar in het dagelijks leven. Je hebt de vrijheid om de gerechten naar wens te verplaatsen of je eigen indeling te creëren. We hopen dat onze voedingsschema’s en recepten je zullen inspireren en motiveren op je gezondheidsreis. Mocht je vragen of opmerkingen hebben, aarzel dan niet om contact met ons op te nemen.
       </Text>
 
       <Text style={styles.ondertitleorange} break>
@@ -805,11 +802,7 @@ const styles = StyleSheet.create({
   vb_row_content : {
     width: '70%',
   },
-
-
-
 });
-
 
 
 export default MyDocument;
