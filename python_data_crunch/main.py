@@ -87,8 +87,8 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
             'vegetarian': row['vegetarian'],
             'allergies': row['allergies'],
             'instructions': row['instructions'],
-
-            'ingredients': row['ingredients']
+            'ingredients': row['ingredients'],
+            'day': 0
         }
         if 'breakfast' in str(row['cat']).lower() or 'ontbijt' in str(row['cat']).lower():
             breakfasts_names.append(row['name'])
@@ -108,6 +108,7 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
         "zwaar": 1.725,
         "zeer_zwaar": 1.9
     }
+
 
     #calc bmi (10 × 79kg) + (6.25 × 182cm) - (5 × 24) + 5 = 1813kcal
     bmi = 0
@@ -138,16 +139,47 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
         "snack": []
     }
 
-
+    amount_snacks_per_day = []
 
     total_kcal_schedule = 0
     total_protein_schedule = 0
-    cancer = 0
 
+
+
+    bld_min = 0.65
+
+    if adjusted_tdee <= 2500:
+        bld_min = 0.9 
+    if adjusted_tdee > 2500:
+        high_calorie_snacks = []
+        #add to snacks
+        for snack in collectmeals:
+            if 'snack' in collectmeals[snack]['cat'].lower() :
+                if collectmeals[snack]['kcal'] > 150:
+                    high_calorie_snacks.append(collectmeals[snack]['name'])
+            elif 'lunch' in collectmeals[snack]['cat'] :
+                if collectmeals[snack]['kcal'] > 350 and collectmeals[snack]['kcal'] < 800:
+                    high_calorie_snacks.append(collectmeals[snack]['name'])
+
+        snacks_names = high_calorie_snacks
+
+        bld_min = 0.8             
+    if adjusted_tdee >= 2800:
+        bld_min = 0.7
+    if adjusted_tdee >= 3100:
+        bld_min = 0.65
+
+
+    # loops = []
+    # print(len(snacks_names))
     for i in range(0, days):
+        loopscount = 0
         notfound = True
         while notfound:
-
+            loopscount += 1
+            # print(loopscount)
+            if loopscount > 4000:
+                return "error"
             total_kcal = 0
             total_protein = 0
             temp_meals = {
@@ -199,13 +231,10 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
 
             #if breakfast, lunch and dinner make up > 70% of the total kcal, add snacks untul its around 100%
 
-            bld_min = 0
-            if adjusted_tdee > 2600:
-                bld_min = adjusted_tdee * 0.7
-            else:
-                bld_min = adjusted_tdee * 0.8                            
+
             if total_kcal >= adjusted_tdee * bld_min and total_kcal < adjusted_tdee:
                 if total_kcal >= min_tdee and total_kcal <= max_tdee:
+                    #case : geen snacks nodig
                     meals['breakfast'].append(temp_meals['breakfast'][0])
                     meals['lunch'].append(temp_meals['lunch'][0])
                     meals['dinner'].append(temp_meals['dinner'][0])
@@ -214,11 +243,13 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
                     notfound = False
                     break
                 while total_kcal < adjusted_tdee:
+                    #case : meer snacks nodig
+                    
                     random_number4 = np.random.randint(len(snacks_names))
                     temptotal = total_kcal + collectmeals[snacks_names[random_number4]]['kcal']
-                    cancer += 1
 
                     if temptotal >= min_tdee and temptotal <= max_tdee:
+                        collectmeals[snacks_names[random_number4]]['day'] = i
                         temp_meals['snack'].append(collectmeals[snacks_names[random_number4]])
                         total_kcal += collectmeals[snacks_names[random_number4]]['kcal']
                         total_protein += collectmeals[snacks_names[random_number4]]['protein']
@@ -231,18 +262,23 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
                         total_kcal_schedule += total_kcal
                         total_protein_schedule += total_protein
                         notfound = False
+
+                        amount_snacks_per_day.append(len(temp_meals['snack']))
                         break
                     elif temptotal > max_tdee:
                         continue
                     elif temptotal < min_tdee:
+                        collectmeals[snacks_names[random_number4]]['day'] = i
                         temp_meals['snack'].append(collectmeals[snacks_names[random_number4]])
                         total_kcal += collectmeals[snacks_names[random_number4]]['kcal']
                         total_protein += collectmeals[snacks_names[random_number4]]['protein']
                         continue
                     else:
                         continue
+        # loops.append(loopscount)
 
-    return_data = {'meals' : meals, 'tdee': tdee, 'total_kcal': int(total_kcal_schedule / days), 'total_protein': int(total_protein_schedule / days), 'kcal_goal' : int(adjusted_tdee), 'goal': goal, 'bmr': bmi} 
+    # print(loops)                
+    return_data = {'meals' : meals, 'tdee': tdee, 'snacks_per_day' : amount_snacks_per_day, 'total_kcal': int(total_kcal_schedule / days), 'total_protein': int(total_protein_schedule / days), 'kcal_goal' : int(adjusted_tdee), 'goal': goal, 'bmr': bmi} 
 
     return return_data
 

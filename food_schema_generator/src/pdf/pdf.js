@@ -8,7 +8,7 @@ import FontPoppinsExtraBold from './Poppins-ExtraBold.ttf';
 
 // Create Document Component
 const MyDocument = (props) => (
-
+  console.log(props.snacks),
   <Document>
     <Page style={styles.body}>
 
@@ -300,10 +300,24 @@ const MyDocument = (props) => (
 
                 <View style={styles.vb_row}>
                     <View style={styles.vb_row_header}>
-                        <Text style={styles.vb_text}>Snack</Text>
+                        <Text style={styles.vb_text}>Snack(s)</Text>
                     </View>
                     <View style={styles.vb_row_content}>
-                        <Text style={styles.vb_text}>{props.snacks[index]?.name}</Text>
+                    {props.snacks.map((datapunt, index2) => 
+                        datapunt.day === index
+                          ? (
+                          <Text style={styles.vb_text}>{datapunt.name}, </Text>
+                          ):
+                          ( 
+                            null
+                          )
+                        
+                        // <Text style={styles.vb_text}>{datapunt.day}, {index}, {datapunt.name}</Text>
+                        // hkjasgdasujhylgdsjh === undefined ? (
+                        //   <p>{props.error}</p>
+                        // ) : ( )
+                        
+                    )}
                     </View>
                 </View>
 
@@ -565,10 +579,6 @@ const styles = StyleSheet.create({
   },
 
 
-  // {/* recipe_header, recipe_body, recipe_upper_body, recipe_name, recipe_nutriens,
-  // recipe_lower_body, recipe_ingredients, recipe_intructions 
-  // ingredient_box, instruction_box,title_box, nutrient_box
-  // */}
   recipe_body : {
     display: 'flex',
     flexDirection: 'column',
