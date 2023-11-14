@@ -199,7 +199,12 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
 
             #if breakfast, lunch and dinner make up > 70% of the total kcal, add snacks untul its around 100%
 
-            if total_kcal >= adjusted_tdee * 0.8 and total_kcal < adjusted_tdee:
+            bld_min = 0
+            if adjusted_tdee > 2600:
+                bld_min = adjusted_tdee * 0.7
+            else:
+                bld_min = adjusted_tdee * 0.8                            
+            if total_kcal >= adjusted_tdee * bld_min and total_kcal < adjusted_tdee:
                 if total_kcal >= min_tdee and total_kcal <= max_tdee:
                     meals['breakfast'].append(temp_meals['breakfast'][0])
                     meals['lunch'].append(temp_meals['lunch'][0])
