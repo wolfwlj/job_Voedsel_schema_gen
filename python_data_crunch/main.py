@@ -160,20 +160,30 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
             random_number2 = np.random.randint(len(lunches_names))
             random_number3 = np.random.randint(len(dinners_names))
 
+
+            if collectmeals[lunches_names[random_number1]] in meals['breakfast'] or collectmeals[dinners_names[random_number1]] in meals['lunch']:
+                continue
+
             total_kcal += collectmeals[breakfasts_names[random_number1]]['kcal']
             total_protein += collectmeals[breakfasts_names[random_number1]]['protein']
             temp_meals['breakfast'].append(collectmeals[breakfasts_names[random_number1]])
+
+
+            if collectmeals[lunches_names[random_number2]] in meals['lunch'] or collectmeals[dinners_names[random_number2]] in meals['dinner']:
+                continue
 
             total_kcal += collectmeals[lunches_names[random_number2]]['kcal']
             total_protein += collectmeals[lunches_names[random_number2]]['protein']
             temp_meals['lunch'].append(collectmeals[lunches_names[random_number2]])
 
 
-            if collectmeals[dinners_names[random_number3]] in meals['dinner'] or collectmeals[dinners_names[random_number3]] in temp_meals['lunch']:
+            if collectmeals[dinners_names[random_number3]] in meals['dinner'] or collectmeals[dinners_names[random_number3]] in meals['lunch']:
                 continue
+
             total_kcal += collectmeals[dinners_names[random_number3]]['kcal']
             total_protein += collectmeals[dinners_names[random_number3]]['protein']
             temp_meals['dinner'].append(collectmeals[dinners_names[random_number3]])
+
 
             if goal == 'verliezen':
                 min_tdee = adjusted_tdee - 100
