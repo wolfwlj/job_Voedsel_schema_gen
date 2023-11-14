@@ -278,5 +278,6 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
 
 if __name__ == "__main__":
     import uvicorn
-    import os
-    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('$PORT')))
+    import os   
+    print(os.getenv('$PORT'))
+    uvicorn.run(app, host="0.0.0.0", port=os.getenv('$PORT'))
