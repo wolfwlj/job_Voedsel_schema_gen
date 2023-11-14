@@ -147,6 +147,7 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
     for i in range(0, days):
         notfound = True
         while notfound:
+
             total_kcal = 0
             total_protein = 0
             temp_meals = {
@@ -161,7 +162,7 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
             random_number3 = np.random.randint(len(dinners_names))
 
 
-            if collectmeals[lunches_names[random_number1]] in meals['breakfast'] or collectmeals[dinners_names[random_number1]] in meals['lunch']:
+            if collectmeals[breakfasts_names[random_number1]] in meals['breakfast'] or collectmeals[breakfasts_names[random_number1]] in meals['lunch']:
                 continue
 
             total_kcal += collectmeals[breakfasts_names[random_number1]]['kcal']
@@ -169,7 +170,7 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
             temp_meals['breakfast'].append(collectmeals[breakfasts_names[random_number1]])
 
 
-            if collectmeals[lunches_names[random_number2]] in meals['lunch'] or collectmeals[dinners_names[random_number2]] in meals['dinner']:
+            if collectmeals[lunches_names[random_number2]] in meals['lunch'] or collectmeals[lunches_names[random_number2]] in meals['dinner']:
                 continue
 
             total_kcal += collectmeals[lunches_names[random_number2]]['kcal']
