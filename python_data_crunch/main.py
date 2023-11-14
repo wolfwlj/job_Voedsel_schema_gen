@@ -280,4 +280,4 @@ if __name__ == "__main__":
     import uvicorn
     import os   
     print(os.getenv('PORT'))
-    uvicorn.run(app, host="0.0.0.0", port=os.getenv('PORT'))
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('PORT')))
