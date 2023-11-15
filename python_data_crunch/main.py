@@ -181,7 +181,7 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
         bld_min = 0.8        
     if adjusted_tdee >= 2800 and adjusted_tdee < 3100:
         bld_min = 0.8
-    if adjusted_tdee >= 3900:
+    if adjusted_tdee >= 3800:
         bld_min = 0.75
 
 
