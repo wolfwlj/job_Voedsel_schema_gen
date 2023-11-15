@@ -36,7 +36,7 @@ def test():
 def read_item(gender: str, height: int, weight: int, age: int, goal: str, activity: str, days: int):
 
     # Importing the dataset
-    dataset = pd.read_csv('recipes_job_2.csv')
+    dataset = pd.read_csv('recipes_job_3.csv')
 
     breakfasts_names = []
     lunches_names = []
@@ -68,7 +68,7 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
         if pd.isnull(row['kcal']):
             row['kcal'] = 0
         if pd.isnull(row['cat']):
-            row['cat'] = 0
+            row['cat'] = "niks"
         if pd.isnull(row['name']):
             row['name'] = 0
         if pd.isnull(row['fiber']):
@@ -90,6 +90,9 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
             'ingredients': row['ingredients'],
             'day': 0
         }
+        #uncomment dit om te checken of er iets in de cat kolom staat wat niet klopt
+        # if 'niks' in str(row['cat']).lower():
+        #     print(row['name'])
         if 'breakfast' in str(row['cat']).lower() or 'ontbijt' in str(row['cat']).lower():
             breakfasts_names.append(row['name'])
         if 'lunch' in str(row['cat']).lower() or 'middageten' in str(row['cat']).lower():
@@ -145,33 +148,49 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
     total_protein_schedule = 0
 
 
+    high_calorie_snacks = []
 
     bld_min = 0.65
 
     if adjusted_tdee <= 2500:
         bld_min = 0.9 
-    if adjusted_tdee > 2500:
-        high_calorie_snacks = []
+    if adjusted_tdee >= 2500 and adjusted_tdee < 3100:
         #add to snacks
         for snack in collectmeals:
             if 'snack' in collectmeals[snack]['cat'].lower() :
                 if collectmeals[snack]['kcal'] > 150:
                     high_calorie_snacks.append(collectmeals[snack]['name'])
             elif 'lunch' in collectmeals[snack]['cat'] :
-                if collectmeals[snack]['kcal'] > 350 and collectmeals[snack]['kcal'] < 800:
+                if collectmeals[snack]['kcal'] > 250 and collectmeals[snack]['kcal'] < 800:
                     high_calorie_snacks.append(collectmeals[snack]['name'])
 
         snacks_names = high_calorie_snacks
 
-        bld_min = 0.8             
-    if adjusted_tdee >= 2800:
-        bld_min = 0.7
-    if adjusted_tdee >= 3100:
-        bld_min = 0.65
+        bld_min = 0.85     
+    elif adjusted_tdee >= 3100:
+        for snack in collectmeals:
+            if 'snack' in collectmeals[snack]['cat'].lower() :
+                if collectmeals[snack]['kcal'] > 250:
+                    high_calorie_snacks.append(collectmeals[snack]['name'])
+            elif 'lunch' in collectmeals[snack]['cat'] :
+                if collectmeals[snack]['kcal'] > 250 and collectmeals[snack]['kcal'] < 800:
+                    high_calorie_snacks.append(collectmeals[snack]['name'])
+
+        snacks_names = high_calorie_snacks
+
+        bld_min = 0.8        
+    if adjusted_tdee >= 2800 and adjusted_tdee < 3100:
+        bld_min = 0.8
+    if adjusted_tdee >= 3900:
+        bld_min = 0.75
+
 
 
     # loops = []
     # print(len(snacks_names))
+
+    firstsnacks = []
+
     for i in range(0, days):
         loopscount = 0
         notfound = True
@@ -242,9 +261,47 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
                     total_protein_schedule += total_protein
                     notfound = False
                     break
-                while total_kcal < adjusted_tdee:
+                loopscount2 = 0
+                    # print(loopscount)
+                
+                #voordat je random snacks pakt.
+                # check eerst of er een snack is die past bij de kcal die je nog nodig hebt
+                # als die er is, pak die dan
+                # zorg dat die snack niet al gepakt is. Als dit niet lukt, pak dan random snacks.
+                for snack in snacks_names:
+                    print(snack)
+                    print(f"current kcal: {total_kcal}  kcal tested: {collectmeals[snack]['kcal'] + total_kcal}  min: {min_tdee}  max: {max_tdee}")
+                    if collectmeals[snack]['kcal'] + total_kcal >= min_tdee and collectmeals[snack]['kcal'] + total_kcal <= max_tdee:
+                        if collectmeals[snack] in meals['snack']:
+                            continue
+                        else:
+                            collectmeals[snack]['day'] = i
+                            temp_meals['snack'].append(collectmeals[snack])
+                            total_kcal += collectmeals[snack]['kcal']
+                            total_protein += collectmeals[snack]['protein']
+
+                            meals['breakfast'].append(temp_meals['breakfast'][0])
+                            meals['lunch'].append(temp_meals['lunch'][0])
+                            meals['dinner'].append(temp_meals['dinner'][0])
+                            for snack in temp_meals['snack']:
+                                meals['snack'].append(snack)
+                            total_kcal_schedule += total_kcal
+                            total_protein_schedule += total_protein
+                            notfound = False
+
+                            amount_snacks_per_day.append(len(temp_meals['snack']))
+                            break
+                    else:
+                        continue
+
+                while total_kcal < min_tdee:
                     #case : meer snacks nodig
+                    loopscount2 += 1
+                    if loopscount2 > 100000:
+                        return "error"
                     
+
+
                     random_number4 = np.random.randint(len(snacks_names))
                     temptotal = total_kcal + collectmeals[snacks_names[random_number4]]['kcal']
 
@@ -275,6 +332,7 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
                         continue
                     else:
                         continue
+                print(loopscount)
         # loops.append(loopscount)
 
     # print(loops)                

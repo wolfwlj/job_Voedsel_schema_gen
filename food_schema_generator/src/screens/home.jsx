@@ -26,7 +26,9 @@ const Home = () => {
     const [age, setAge] = useState(20)
     const [activity, setActivity] = useState(activityopties[0])
     const [amountdays, setAmountdays] = useState(1)
-    
+    const [err_or_succes, setErr_or_succes] = useState("")
+
+
     const [personname, setName] = useState("wolf")
     const [personData, setPersonData] = useState({
         tdee : 0,
@@ -37,7 +39,7 @@ const Home = () => {
 
     const GetDataHandler = async (e) => {
         e.preventDefault()
-
+        setErr_or_succes("loading")
         GetData(gender, height, weight, age,  goal, activity, amountdays)
         .then((data) => {
             setData(data)
@@ -51,11 +53,13 @@ const Home = () => {
                 kcalgoal : data.kcal_goal,
                 goal : data.goal,
             })
-
-            console.log(data)
+            
+            setErr_or_succes("succes")
+            console.log(data.snacks_per_day)
         })
         .catch((error) => {
-            console.log(error)
+            setErr_or_succes("error, probeer opnieuw")
+            // console.log(error)
         })
     }
 
@@ -114,6 +118,10 @@ const Home = () => {
                 <br></br>
 
                 <button type="submit" >Haal voedings schema op</button>
+
+                <p>
+                    {err_or_succes}
+                </p>
 
             </form>
             <br></br>

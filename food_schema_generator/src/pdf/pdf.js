@@ -8,7 +8,6 @@ import FontPoppinsExtraBold from './Poppins-ExtraBold.ttf';
 
 // Create Document Component
 const MyDocument = (props) => (
-  console.log(props.snacks),
   <Document>
     <Page style={styles.body}>
 
