@@ -189,7 +189,6 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
     # loops = []
     # print(len(snacks_names))
 
-    firstsnacks = []
 
     for i in range(0, days):
         loopscount = 0
@@ -269,8 +268,8 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
                 # als die er is, pak die dan
                 # zorg dat die snack niet al gepakt is. Als dit niet lukt, pak dan random snacks.
                 for snack in snacks_names:
-                    print(snack)
-                    print(f"current kcal: {total_kcal}  kcal tested: {collectmeals[snack]['kcal'] + total_kcal}  min: {min_tdee}  max: {max_tdee}")
+                    # print(snack)
+                    # print(f"current kcal: {total_kcal}  kcal tested: {collectmeals[snack]['kcal'] + total_kcal}  min: {min_tdee}  max: {max_tdee}")
                     if collectmeals[snack]['kcal'] + total_kcal >= min_tdee and collectmeals[snack]['kcal'] + total_kcal <= max_tdee:
                         if collectmeals[snack] in meals['snack']:
                             continue
@@ -332,7 +331,7 @@ def read_item(gender: str, height: int, weight: int, age: int, goal: str, activi
                         continue
                     else:
                         continue
-                print(loopscount)
+                # print(loopscount)
         # loops.append(loopscount)
 
     # print(loops)                
